@@ -1,8 +1,9 @@
 <template>
   <div>
-    <custom-header></custom-header>
+    <custom-header @see-favorites="toggleFavorites" :choice="activeList"></custom-header>
     <search @search-event="search"></search>
-    <event-list :events=filteredEvents></event-list>
+    <event-list v-if="activeList === 'search'" :events=filteredEvents></event-list>
+    <event-list v-if="activeList === 'favorites'" events=""></event-list>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ export default {
   data () {
     return {
       keyword: "",
+      activeList: "search",
         events: [
             {
                 id: 1,
@@ -65,7 +67,13 @@ export default {
   methods: {
     search(keyword){
       this.keyword = keyword
-      
+    },
+    toggleFavorites(){
+      if(this.activeList === "favorites") {
+        this.activeList = "search"
+      } else {
+        this.activeList = "favorites"
+      }
     }
   }
 }
